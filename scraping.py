@@ -16,10 +16,15 @@ import pandas as pd
 import time
 import random
 
+# Importo el parser para encodear el query
+import urllib.parse
+
 # Se inicializan las estructuras de datos
 item_dict = {}
 df_info = pd.DataFrame()
 
+query = 'Ciudad de Luján'
+query_encoding = urllib.parse.quote(query)
 
 # Se van a tomar los primeros 2000 artículos
 start = 1
@@ -27,10 +32,10 @@ while start < 2000:
 
     # Se preparan los headers y la url request
     headers = {'User-Agent':'Mozilla/6.0 (Macintosh; Intel Mac OS X 10_11_2) AppleWebKit/601.3.9 (KHTML, like Gecko) Version/9.0.2 Safari/601.3.9'}
-    url = f'https://scholar.google.es/scholar?start={start}&q=ciudad+de+luj%C3%A1n&hl=es&as_sdt=0'
+    url = f'https://scholar.google.es/scholar?start={start}&q={query_encoding}&hl=es&as_sdt=0'
     # Se hace el request y se formatea
     response = requests.get(url,headers=headers)
-    soup = BeautifulSoup(response.content,'lxml')
+    soup = BeautifulSoup(response.content,'html.parser')
 
     for item in soup.select('[data-lid]'): 
         try: 
