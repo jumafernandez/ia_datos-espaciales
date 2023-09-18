@@ -28,17 +28,23 @@ CANTIDAD_RESULTADOS = 20
 query = 'Medio ambiente'
 query_encoding = urllib.parse.quote(query)
 
-# Se van a tomar los primeros 2000 artículos
+# Se van a tomar los primeros CANTIDAD_RESULTADOS artículos que esten en pdf
+pagina_google = 1
 start = 1
 while start < CANTIDAD_RESULTADOS:
 
     # Se preparan los headers y la url request "ambiente"
     headers = {'User-Agent':'Mozilla/6.0 (Macintosh; Intel Mac OS X 10_11_2) AppleWebKit/601.3.9 (KHTML, like Gecko) Version/9.0.2 Safari/601.3.9'}
     url = f'https://scholar.google.es/scholar?start={start}&q={query_encoding}&hl=es&as_sdt=0'
+    
+    # Se muestra el número de página y se incrementa en 1
+    print(f'Resultados de la página {pagina_google} que poseen paper en PDF: \n')
+    pagina_google+=1
+
     # Se hace el request y se formatea
     response = requests.get(url,headers=headers)
     soup = BeautifulSoup(response.content,'html.parser')
-
+    
     for item in soup.select('[data-lid]'): 
 
         try: 
@@ -68,7 +74,7 @@ while start < CANTIDAD_RESULTADOS:
         N_seconds = random.randint(3, 20)
         print(f'\nEl modelo esperará {N_seconds} segundos.\n')
     
-    time.sleep(N_seconds)
+        time.sleep(N_seconds)
 
 # Convertir la lista de diccionarios en un DataFrame
 df_info = pd.DataFrame(data_list)
