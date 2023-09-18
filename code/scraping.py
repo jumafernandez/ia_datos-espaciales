@@ -25,7 +25,7 @@ data_list = []
 
 # Parámetros del bot
 CANTIDAD_RESULTADOS = 20
-query = 'Ciudad de Luján'
+query = 'Medio ambiente'
 query_encoding = urllib.parse.quote(query)
 
 # Se van a tomar los primeros 2000 artículos
@@ -34,7 +34,7 @@ while start < CANTIDAD_RESULTADOS:
 
     # Se preparan los headers y la url request "ambiente"
     headers = {'User-Agent':'Mozilla/6.0 (Macintosh; Intel Mac OS X 10_11_2) AppleWebKit/601.3.9 (KHTML, like Gecko) Version/9.0.2 Safari/601.3.9'}
-    url = f'https://scholar.google.es/scholar?start={start}&q=ambiente&hl=es&as_sdt=0'
+    url = f'https://scholar.google.es/scholar?start={start}&q={query_encoding}&hl=es&as_sdt=0'
     # Se hace el request y se formatea
     response = requests.get(url,headers=headers)
     soup = BeautifulSoup(response.content,'html.parser')
