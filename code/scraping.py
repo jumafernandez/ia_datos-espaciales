@@ -28,7 +28,7 @@ data_list = []
 
 # Parámetros del bot
 CANTIDAD_RESULTADOS = 20 # Cantidad de resultados generales buscados
-query = 'Medio ambiente' # Concepto de búsqueda
+query = 'Luján' # Concepto de búsqueda
 query_encoding = urllib.parse.quote(query) # Encoding del query
 directorio_destino = "data/papers_pdf" # Directorio donde se guardaran los PDFs
 
