@@ -1,6 +1,6 @@
 # Proyecto de Investigación presentado en la Convocatoria a Proyectos de Investigación Multidisciplinarios e Interdepartamentales de la Universidad Nacional de Luján 2023. <br /> <br />
 
-__Título:__ <br />
+__Título del Proyecto:__ <br />
 Generación de herramientas de extracción de información ambiental mediante técnicas de aprendizaje automático, a partir de bases de datos textuales. Su aplicación al caso del Municipio de Luján (provincia de Buenos Aires).
 
 
