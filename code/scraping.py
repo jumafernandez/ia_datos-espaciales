@@ -5,8 +5,9 @@ Created on Sat May  6 11:26:43 2023
 @author: Juan
 """
 
-# Módulo propio que genera funciones para el scraping
+# Módulos propios que generan funciones para el scraping
 from funciones_scraping import descargar_pdfs
+from proxy_functions import fetch_proxies_freeproxy, fetch_proxies_sslproxies, get_valid_proxies
 
 # Módulos para los requests
 from bs4 import BeautifulSoup
@@ -22,23 +23,24 @@ import random
 # Importo el parser para encodear el query
 import urllib.parse
 
-# Se inicializan las estructuras de datos
-item_dict = {}
-data_list = []
-
 # Parámetros del bot
 CANTIDAD_RESULTADOS = 20 # Cantidad de resultados generales buscados
-query = 'Messi' # Concepto de búsqueda
+query = 'Medio Ambiente' # Concepto de búsqueda
 query_encoding = urllib.parse.quote(query) # Encoding del query
 directorio_destino = "data/papers_pdf" # Directorio donde se guardaran los PDFs
 
+# Se inicializan los proxys libres que se hacen para no ser banneados en el request
+# proxies_list_ssl = fetch_proxies_sslproxies(30)
+# proxies_list_freeproxies = fetch_proxies_freeproxy(30)
+# proxies_validos = get_valid_proxies(proxies_list_ssl)
+# proxies_validos.extend(get_valid_proxies(proxies_list_freeproxies))
 
-# Se van a tomar los primeros CANTIDAD_RESULTADOS artículos que esten en pdf
-pagina_google = 1
-
-# Se inicializan contadores
+# Se inicializan contadores y estructuras de datos
 start = 1
 resultados_pdf = 0
+pagina_google = 1
+item_dict = {}
+data_list = []
 
 while start < CANTIDAD_RESULTADOS:
 
@@ -50,8 +52,11 @@ while start < CANTIDAD_RESULTADOS:
     print(f'\nResultados de la página {pagina_google} que poseen paper en PDF: ')
     pagina_google+=1
 
+    # Elegir aleatoriamente un proxy de la lista
+    # proxy_elegido = random.choice(proxies_validos)
+
     # Se hace el request y se formatea
-    response = requests.get(url,headers=headers)
+    response = requests.get(url, headers=headers)
     soup = BeautifulSoup(response.content,'html.parser')
     
     for item in soup.select('[data-lid]'): 
@@ -60,7 +65,7 @@ while start < CANTIDAD_RESULTADOS:
             item_dict = {'titulo': item.select('h3')[0].get_text(),
                          'enlace': item.select('a')[0]['href'],
                          'previa_texto': item.select('.gs_rs')[0].get_text()}
-           
+ 
             # Verifico si está el paper en pdf
             if "[PDF]" in item_dict['titulo']:
                 
@@ -105,5 +110,5 @@ urls_pdf = df_info['enlace']
 directorio_generado = descargar_pdfs(urls_pdf, directorio_destino, query)
 
 # Se guardan en un xlsx y un csv
-df_info.to_excel('{directorio_generado}/resultados-excel.xlsx')
-df_info.to_csv('{directorio_generado}/resultados-csv.csv')
+df_info.to_excel(f'{directorio_generado}/resultados-excel.xlsx')
+df_info.to_csv(f'{directorio_generado}/resultados-csv.csv')
