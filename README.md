@@ -7,9 +7,9 @@ Generación de herramientas de extracción de información ambiental mediante t�
 __Integrantes:__ <br />
 - Leticia Cagnina,
 - Marcelo Errecalde,
-- Juan Manuel Fernández.
+- Juan Manuel Fernández (director),
 - Alicia Iglesias,
-- Daniel Lanson,
+- Daniel Lanson (co-director),
 - Adriana Martinez,
 - Marcelo Mojica,
 - Rosana Matuk Herrera,
