@@ -30,7 +30,11 @@ query_encoding = urllib.parse.quote(query)
 
 # Se van a tomar los primeros CANTIDAD_RESULTADOS artículos que esten en pdf
 pagina_google = 1
+
+# Se inicializan contadores
 start = 1
+resultados_pdf = 0
+
 while start < CANTIDAD_RESULTADOS:
 
     # Se preparan los headers y la url request "ambiente"
@@ -38,7 +42,7 @@ while start < CANTIDAD_RESULTADOS:
     url = f'https://scholar.google.es/scholar?start={start}&q={query_encoding}&hl=es&as_sdt=0'
     
     # Se muestra el número de página y se incrementa en 1
-    print(f'Resultados de la página {pagina_google} que poseen paper en PDF: \n')
+    print(f'\nResultados de la página {pagina_google} que poseen paper en PDF: ')
     pagina_google+=1
 
     # Se hace el request y se formatea
@@ -60,7 +64,10 @@ while start < CANTIDAD_RESULTADOS:
                 print(item.select('h3')[0].get_text())
                 
                 # Si es un pdf además se agrega el diccionario a la lista
-                data_list.append(item_dict)        
+                data_list.append(item_dict)
+                
+                # Se incrementa el contador de resultados positivos
+                resultados_pdf+=1
 
         except Exception as e: 
             #raise e 
@@ -76,6 +83,16 @@ while start < CANTIDAD_RESULTADOS:
     
         time.sleep(N_seconds)
 
+# Se realiza un resumen:
+print('\n----------------------------------------\n')
+print(f'Query realizado: {query}.')
+print(f'Cantidad de páginas de Google recorridas: {pagina_google}.')
+print(f'Cantidad de artículos relevantes en PDF encontrados: {resultados_pdf}.')
+print(f'Cantidad de artículos relevantes totales pedidos/encontrados: {CANTIDAD_RESULTADOS}/{start}.')
+
 # Convertir la lista de diccionarios en un DataFrame
 df_info = pd.DataFrame(data_list)
-df_info.to_excel('resultados.xlsx')
+
+# Se guardan en un xlsx y un csv
+df_info.to_excel('resultados-excel.xlsx')
+df_info.to_csv('resultados-csv.csv')
