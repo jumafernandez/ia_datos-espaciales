@@ -62,10 +62,11 @@ while start < CANTIDAD_RESULTADOS:
     
     # Se pasan a los siguientes 10 resultados (Scholar muestra 10 p/página)
     start+=10
-       
-    # Hago una pausa con intervalo random ("3-20")
-    N_seconds = random.randint(3, 20)
-    print(f'\nEl modelo esperará {N_seconds} segundos.\n')
+    
+    if start < CANTIDAD_RESULTADOS:
+        # Hago una pausa con intervalo random ("3-20")
+        N_seconds = random.randint(3, 20)
+        print(f'\nEl modelo esperará {N_seconds} segundos.\n')
     
     time.sleep(N_seconds)
 
