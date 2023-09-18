@@ -5,6 +5,9 @@ Created on Sat May  6 11:26:43 2023
 @author: Juan
 """
 
+# Módulo propio que genera funciones para el scraping
+from funciones_scraping import descargar_pdfs
+
 # Módulos para los requests
 from bs4 import BeautifulSoup
 import requests
@@ -24,9 +27,11 @@ item_dict = {}
 data_list = []
 
 # Parámetros del bot
-CANTIDAD_RESULTADOS = 20
-query = 'Medio ambiente'
-query_encoding = urllib.parse.quote(query)
+CANTIDAD_RESULTADOS = 20 # Cantidad de resultados generales buscados
+query = 'Medio ambiente' # Concepto de búsqueda
+query_encoding = urllib.parse.quote(query) # Encoding del query
+directorio_destino = "data/papers_pdf" # Directorio donde se guardaran los PDFs
+
 
 # Se van a tomar los primeros CANTIDAD_RESULTADOS artículos que esten en pdf
 pagina_google = 1
@@ -82,7 +87,7 @@ while start < CANTIDAD_RESULTADOS:
         print(f'\nEl modelo esperará {N_seconds} segundos.\n')
     
         time.sleep(N_seconds)
-
+        
 # Se realiza un resumen:
 print('\n----------------------------------------\n')
 print(f'Query realizado: {query}.')
@@ -96,3 +101,11 @@ df_info = pd.DataFrame(data_list)
 # Se guardan en un xlsx y un csv
 df_info.to_excel('resultados-excel.xlsx')
 df_info.to_csv('resultados-csv.csv')
+
+# Una vez procesados los resultados se descargan los pdf
+urls_pdf = df_info['enlace']
+
+# Llamar a la función para descargar los PDFs
+descargar_pdfs(urls_pdf, directorio_destino, query)
+
+
