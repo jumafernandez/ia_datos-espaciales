@@ -28,7 +28,7 @@ data_list = []
 
 # Parámetros del bot
 CANTIDAD_RESULTADOS = 20 # Cantidad de resultados generales buscados
-query = 'Luján' # Concepto de búsqueda
+query = 'Messi' # Concepto de búsqueda
 query_encoding = urllib.parse.quote(query) # Encoding del query
 directorio_destino = "data/papers_pdf" # Directorio donde se guardaran los PDFs
 
@@ -98,14 +98,12 @@ print(f'Cantidad de artículos relevantes totales pedidos/encontrados: {CANTIDAD
 # Convertir la lista de diccionarios en un DataFrame
 df_info = pd.DataFrame(data_list)
 
-# Se guardan en un xlsx y un csv
-df_info.to_excel('resultados-excel.xlsx')
-df_info.to_csv('resultados-csv.csv')
-
 # Una vez procesados los resultados se descargan los pdf
 urls_pdf = df_info['enlace']
 
 # Llamar a la función para descargar los PDFs
-descargar_pdfs(urls_pdf, directorio_destino, query)
+directorio_generado = descargar_pdfs(urls_pdf, directorio_destino, query)
 
-
+# Se guardan en un xlsx y un csv
+df_info.to_excel('{directorio_generado}/resultados-excel.xlsx')
+df_info.to_csv('{directorio_generado}/resultados-csv.csv')

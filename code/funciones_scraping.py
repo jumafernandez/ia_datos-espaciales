@@ -46,3 +46,5 @@ def descargar_pdfs(urls, directorio, query_busqueda):
             print(f"El archivo '{nombre_archivo}' se ha descargado con éxito.")
         else:
             print(f"No se pudo descargar el archivo '{nombre_archivo}'. Código de estado: {response.status_code}")
+            
+    return directorio_busqueda
