@@ -25,7 +25,7 @@ import urllib.parse
 
 # Parámetros del bot
 CANTIDAD_RESULTADOS = 20 # Cantidad de resultados generales buscados
-query = 'Medio Ambiente' # Concepto de búsqueda
+query = 'Ambiente' # Concepto de búsqueda
 query_encoding = urllib.parse.quote(query) # Encoding del query
 directorio_destino = "data/papers_pdf" # Directorio donde se guardaran los PDFs
 
