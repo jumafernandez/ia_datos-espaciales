@@ -7,7 +7,8 @@ Created on Sat May  6 11:26:43 2023
 
 # Módulos propios que generan funciones para el scraping
 from funciones_scraping import descargar_pdfs
-from proxy_functions import fetch_proxies_freeproxy, fetch_proxies_sslproxies, get_valid_proxies
+# from proxy_functions import fetch_proxies_freeproxy, fetch_proxies_sslproxies, get_valid_proxies
+from funciones_text import pdf_to_text
 
 # Módulos para los requests
 from bs4 import BeautifulSoup
@@ -108,6 +109,10 @@ urls_pdf = df_info['enlace']
 
 # Llamar a la función para descargar los PDFs
 directorio_generado = descargar_pdfs(urls_pdf, directorio_destino, query)
+
+# Ahora paso a txt el texto de los archivos pdf descargados
+pdf_to_text(directorio_generado)
+
 
 # Se guardan en un xlsx y un csv
 df_info.to_excel(f'{directorio_generado}/resultados-excel.xlsx')
