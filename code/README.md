@@ -11,5 +11,5 @@
 ## text_procesing.py
 
 1. Para ejecutar el script que prcocesa los txt, se deben configurar previamente los siguientes parámetros en `config.py`:
-DIRECTORIO_TXTS = "C:/Users/jumaf/Documents/GitHub/ia_datos-espaciales/code/data/papers/20230919-174050-Ambiente" # Directorio donde se desea guardar el procesamiento
+- DIRECTORIO_TXTS = "C:/Users/jumaf/Documents/GitHub/ia_datos-espaciales/code/data/papers/20230919-174050-Ambiente" # Directorio donde se desea guardar el procesamiento
 2. Luego, se debe ejecutar `text_procesing.py`, el cual generará un archivo .xlsx con los indicadores de cada documento txt que forme parte del directorio.
