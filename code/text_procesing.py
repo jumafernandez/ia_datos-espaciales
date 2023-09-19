@@ -1,22 +1,12 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Tue Sep 19 14:26:46 2023
-
-@author: jumaf
-"""
 
 from funciones_text import cargar_documentos_desde_directorio, procesar_documentos
+from config import DIRECTORIO_TXTS
 
 
 # Ejemplo de uso:
-directorio = "C:/Users/jumaf/Documents/GitHub/ia_datos-espaciales/code/data/papers/20230919-152910-Ambiente"
-documentos = cargar_documentos_desde_directorio(directorio)
+documentos = cargar_documentos_desde_directorio(DIRECTORIO_TXTS)
 indicadores = procesar_documentos(documentos)
 
 # Muestra el DataFrame con los indicadores
-indicadores.to_excel(f'{directorio}/indicadores.xlsx')
-
-
-
-
-
+indicadores.to_excel(f'{DIRECTORIO_TXTS}/indicadores.xlsx')

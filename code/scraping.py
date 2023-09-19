@@ -1,14 +1,10 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Sat May  6 11:26:43 2023
-
-@author: Juan
-"""
 
 # Módulos propios que generan funciones para el scraping
 from funciones_scraping import descargar_pdfs
 # from proxy_functions import fetch_proxies_freeproxy, fetch_proxies_sslproxies, get_valid_proxies
 from funciones_text import pdf_to_text
+from config import CANTIDAD_RESULTADOS, QUERY, DIRECTORIO_DESTINO
 
 # Módulos para los requests
 from bs4 import BeautifulSoup
@@ -24,11 +20,7 @@ import random
 # Importo el parser para encodear el query
 import urllib.parse
 
-# Parámetros del bot
-CANTIDAD_RESULTADOS = 20 # Cantidad de resultados generales buscados
-query = 'Ambiente' # Concepto de búsqueda
-query_encoding = urllib.parse.quote(query) # Encoding del query
-directorio_destino = "data/papers" # Directorio donde se guardaran los PDFs
+query_encoding = urllib.parse.quote(QUERY) # Encoding del query
 
 # Se inicializan los proxys libres que se hacen para no ser banneados en el request
 # proxies_list_ssl = fetch_proxies_sslproxies(30)
@@ -63,7 +55,9 @@ while start < CANTIDAD_RESULTADOS:
     for item in soup.select('[data-lid]'): 
 
         try: 
+            
             item_dict = {'titulo': item.select('h3')[0].get_text(),
+                         'autor/origen':  item.select('.gs_a')[0].get_text(),
                          'enlace': item.select('a')[0]['href'],
                          'previa_texto': item.select('.gs_rs')[0].get_text()}
  
@@ -96,7 +90,7 @@ while start < CANTIDAD_RESULTADOS:
         
 # Se realiza un resumen:
 print('\n----------------------------------------\n')
-print(f'Query realizado: {query}.')
+print(f'Query realizado: {QUERY}.')
 print(f'Cantidad de páginas de Google recorridas: {pagina_google}.')
 print(f'Cantidad de artículos relevantes en PDF encontrados: {resultados_pdf}.')
 print(f'Cantidad de artículos relevantes totales pedidos/encontrados: {CANTIDAD_RESULTADOS}/{start}.')
@@ -108,7 +102,7 @@ df_info = pd.DataFrame(data_list)
 urls_pdf = df_info['enlace']
 
 # Llamar a la función para descargar los PDFs
-directorio_generado = descargar_pdfs(urls_pdf, directorio_destino, query)
+directorio_generado = descargar_pdfs(urls_pdf, DIRECTORIO_DESTINO, QUERY)
 
 # Ahora paso a txt el texto de los archivos pdf descargados
 pdf_to_text(directorio_generado)

@@ -1,9 +1,4 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Tue Sep 19 10:33:11 2023
-
-@author: jumaf
-"""
 
 import pdfplumber
 import os
@@ -11,7 +6,6 @@ import re
 from unidecode import unidecode  # Importa la función unidecode
 import numpy as np
 import pandas as pd
-import nltk
 from nltk.corpus import stopwords
 from sklearn.feature_extraction.text import CountVectorizer  # Agregar esta línea
 

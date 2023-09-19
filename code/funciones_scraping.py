@@ -1,9 +1,4 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Mon Sep 18 16:35:09 2023
-
-@author: jumaf
-"""
 
 from datetime import datetime
 
