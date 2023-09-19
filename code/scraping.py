@@ -28,7 +28,7 @@ import urllib.parse
 CANTIDAD_RESULTADOS = 20 # Cantidad de resultados generales buscados
 query = 'Ambiente' # Concepto de búsqueda
 query_encoding = urllib.parse.quote(query) # Encoding del query
-directorio_destino = "data/papers_pdf" # Directorio donde se guardaran los PDFs
+directorio_destino = "data/papers" # Directorio donde se guardaran los PDFs
 
 # Se inicializan los proxys libres que se hacen para no ser banneados en el request
 # proxies_list_ssl = fetch_proxies_sslproxies(30)
@@ -112,7 +112,6 @@ directorio_generado = descargar_pdfs(urls_pdf, directorio_destino, query)
 
 # Ahora paso a txt el texto de los archivos pdf descargados
 pdf_to_text(directorio_generado)
-
 
 # Se guardan en un xlsx y un csv
 df_info.to_excel(f'{directorio_generado}/resultados-excel.xlsx')
