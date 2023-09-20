@@ -10,6 +10,7 @@ Hasta el momento, el prototipo de software está dividido en dos pequeños módu
 - CANTIDAD_RESULTADOS = 20 # Cantidad de resultados generales buscados
 - QUERY = 'Ambiente' # Concepto de búsqueda
 - DIRECTORIO_DESTINO = "data/papers" # Directorio donde se guardaran los PDFs
+- OFFSET = 1 # Número de resultado a partir del cual se comienzan a guardar los resultados encontrados en la búsqueda
 2. Luego, se debe ejecutar `scraping.py`, el cual generará un directorio con la consulta y la fecha y hora y almacenará los archivos pdf (y el txt correspondiente con el texto del doc) en ese directorio.
 
 ## text_procesing.py
