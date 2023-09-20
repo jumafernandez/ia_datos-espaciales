@@ -12,7 +12,7 @@ from config import CANTIDAD_RESULTADOS, QUERY, DIRECTORIO_DESTINO
 # proxies_validos = get_valid_proxies(proxies_list_ssl)
 # proxies_validos.extend(get_valid_proxies(proxies_list_freeproxies))
 
-data, resultados, paginas_recorridas = scraping(QUERY, CANTIDAD_RESULTADOS)
+data, resultados, paginas_recorridas = scraping(QUERY, CANTIDAD_RESULTADOS, OFFSET)
 
 # Se realiza un resumen:
 print('\n----------------------------------------\n')

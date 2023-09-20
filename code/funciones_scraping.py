@@ -9,7 +9,26 @@ import time # Módulos para randomizar los requests
 import random # Módulos para randomizar los requests
 import urllib.parse # Importo el parser para encodear el query
 
-def scraping(query_user, resultados_pedidos, proxies=None):
+import fake_useragent
+
+def get_user_agents(cantidad):
+    """
+    Devuelve una lista de user_agents random
+    Args:
+        cantidad: Cantidad de user_agents a generar
+    Returns:
+        Lista de user_agents
+    """
+
+    user_agents = []
+    for i in range(cantidad):
+        user_agent = fake_useragent.UserAgent().random
+        user_agents.append(user_agent)
+
+    return user_agents
+
+
+def scraping(query_user, resultados_pedidos, offset_resultados_pedidos=1, proxies=None):
     """
     Esta función es la que realiza el scraping
     Parameters
@@ -32,7 +51,7 @@ def scraping(query_user, resultados_pedidos, proxies=None):
 
     """
     # Se inicializan contadores y estructuras de datos
-    start = 1
+    start = offset_resultados_pedidos
     resultados_pdf = 0
     resultados_relevantes = 0
     paginas_google = 1
@@ -41,10 +60,18 @@ def scraping(query_user, resultados_pedidos, proxies=None):
     
     query_encoding = urllib.parse.quote(query_user) # Encoding del query
     
+    # La cantidad de resultados pedidos se conforma finalmente con la cantidad de
+    # resultados + el offset (numero a partir del que empieza a guardar)
+    resultados_pedidos = resultados_pedidos + offset_resultados_pedidos
+    
     while start < resultados_pedidos:
     
-        # Se preparan los headers y la url request "ambiente"
-        headers = {'User-Agent':'Mozilla/6.0 (Macintosh; Intel Mac OS X 10_11_2) AppleWebKit/601.3.9 (KHTML, like Gecko) Version/9.0.2 Safari/601.3.9'}
+        # Se preparan los headers y la url request
+        # Genero una lista de user agents aleatorios por página (c/página tiene 10 resultados)
+        useragent_list = get_user_agents(1+(resultados_pedidos//10))
+        # Se toma un user agent por página
+        useragent_random = useragent_list[paginas_google-1]
+        headers = {'User-Agent':useragent_random}
         url = f'https://scholar.google.es/scholar?start={start}&q={query_encoding}&hl=es&as_sdt=0'
         
         # Se muestra el número de página y se incrementa en 1
