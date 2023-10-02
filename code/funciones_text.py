@@ -9,6 +9,7 @@ import pandas as pd
 from nltk.corpus import stopwords
 from sklearn.feature_extraction.text import CountVectorizer  # Agregar esta línea
 
+
 def clean_text(text):
     """
     Realiza una limpieza básica del texto preservando caracteres acentuados.
@@ -93,7 +94,56 @@ def cargar_documentos_desde_directorio(directorio):
 
     return documentos
 
-def procesar_documentos(documentos, idioma='spanish'):
+def identify_sections(text, query):
+    """
+    Identifica las secciones del artículo que hablan del término de búsqueda.
+
+    Args:
+        text: El texto del artículo.
+        query: El término de búsqueda.
+
+    Returns:
+        Una lista de secciones.
+    """
+
+    expression = f"({query})"
+    matches = re.finditer(expression, text)
+
+    sections = []
+    for match in matches:
+        start_index = match.start()
+        end_index = match.end()
+        section = text[start_index:end_index]
+        sections.append(section)
+
+    return sections
+
+import torch
+from transformers import BertTokenizerFast, EncoderDecoderModel
+
+def generate_summary(text, model):
+    """
+    Genera el resumen de un texto en función de un modelo pre-entrenado
+    Parameters:
+        text (str): El texto a resumir
+        model (str): El nombre del modelo pre-entrenado que se utilizará
+    Returns: str: el texto resumido.
+    """
+
+    device = 'cuda' if torch.cuda.is_available() else 'cpu'
+
+    tokenizer = BertTokenizerFast.from_pretrained(model)
+    model = EncoderDecoderModel.from_pretrained(model).to(device)
+    
+    inputs = tokenizer(text, padding="max_length", truncation=True, max_length=512, return_tensors="pt")
+    input_ids = inputs.input_ids.to(device)
+    attention_mask = inputs.attention_mask.to(device)
+    output = model.generate(input_ids, attention_mask=attention_mask)
+    
+    return [tokenizer.decode(output[i], skip_special_tokens=True) for i in range(len(output))]
+
+
+def procesar_documentos(documentos, query_docs, MODEL_SUMMARIZATION, idioma='spanish'):
     """
     Procesa una lista de documentos de texto y genera indicadores por documento.
 
@@ -107,6 +157,7 @@ def procesar_documentos(documentos, idioma='spanish'):
     indicadores = []
 
     for documento in documentos:
+        
         # Verifica si el documento tiene contenido
         if documento.strip():
             # Vectorización de documentos utilizando CountVectorizer
@@ -118,6 +169,12 @@ def procesar_documentos(documentos, idioma='spanish'):
 
             # Verifica si el vocabulario no está vacío
             if len(vocabulario) > 0:
+                
+                print(f"{documento} en procesamiento")
+                
+                sections = identify_sections(documento, query_docs)
+                summary = generate_summary(sections, MODEL_SUMMARIZATION)
+                
                 # Convierte la matriz a un array NumPy si es necesario
                 matriz_documento_np = matriz_documento.toarray()
 
@@ -141,8 +198,13 @@ def procesar_documentos(documentos, idioma='spanish'):
                     "Términos Diferentes por Palabra": terminos_diferentes_por_palabra,
                     "Término Más Utilizado": terminos_mas_utilizados[0],
                     "2do Término Más Utilizado": terminos_mas_utilizados[1],
-                    "3er Término Más Utilizado": terminos_mas_utilizados[2]
+                    "3er Término Más Utilizado": terminos_mas_utilizados[2],
+                    "Resumen": summary
                 })
+            else:
+                print(f"{documento} no posee vocabulario")
+        else:
+            print(f"{documento} está vacío")
 
     # Convierte la lista de indicadores en un DataFrame
     indicadores_df = pd.DataFrame(indicadores)
