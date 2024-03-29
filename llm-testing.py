@@ -16,7 +16,7 @@ DIRECTORIO_LLM_MODELS = 'C:/Users/jumaf/OneDrive/Documentos/llm-models/'
 MODEL_NAME = "llama-2-7b-chat.Q5_K_S.gguf"
 FOLDER_PATH = 'C:/Users/jumaf/Documents/GitHub/ia_datos-espaciales/pdfs/'
 
-N_GPU_LAYERS = 0
+N_GPU_LAYERS = 0 # Sin GPU
 N_BATCH = 512
 callbacks = [StreamingStdOutCallbackHandler()]
 local_path = (DIRECTORIO_LLM_MODELS + MODEL_NAME)
@@ -26,7 +26,7 @@ llm_model = LlamaCpp(
     n_gpu_layers=N_GPU_LAYERS,
     n_batch=N_BATCH,
     n_ctx=2048,
-    f16_kv=True,  # MUST set to True, otherwise you will run into problem after a couple of calls
+    f16_kv=True,
     callbacks=callbacks,
 )
 
@@ -56,9 +56,6 @@ for filename in pdf_files:
     # Retriever
     retriever = vectorstore.as_retriever(search_type="similarity", search_kwargs={"k": 6})
     
-    # Procesamiento adicional o almacenamiento de resultados, según sea necesario
-    # ...
-    
     print(f'PDF {filename} procesado y almacenado en el vectorstore.')
 
 print('Proceso de load de documentos finalizado.')
@@ -69,6 +66,7 @@ template = """Responde la pregunta en español basado fundamentalmente en el con
 
 Pregunta: {question}
 """
+
 prompt = ChatPromptTemplate.from_template(template)
 
 setup_and_retrieval = RunnableParallel(
