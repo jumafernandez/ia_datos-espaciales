@@ -11,7 +11,7 @@ from langchain.vectorstores import Chroma
 from langchain.embeddings import GPT4AllEmbeddings
 import os
 
-
+# Descargado de https://huggingface.co/TheBloke/Llama-2-7B-Chat-GGUF/blob/main/llama-2-7b-chat.Q5_K_S.gguf
 DIRECTORIO_LLM_MODELS = 'C:/Users/jumaf/OneDrive/Documentos/llm-models/'
 MODEL_NAME = "llama-2-7b-chat.Q5_K_S.gguf"
 FOLDER_PATH = 'C:/Users/jumaf/Documents/GitHub/ia_datos-espaciales/pdfs/'
