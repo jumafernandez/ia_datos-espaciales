@@ -121,12 +121,14 @@ def identify_sections(text, query):
 import torch
 from transformers import BertTokenizerFast, EncoderDecoderModel
 
-def generate_summary(text, model):
+def generate_summary(text, model, batch_size=32, max_length=512):
     """
     Genera el resumen de un texto en función de un modelo pre-entrenado
     Parameters:
         text (str): El texto a resumir
         model (str): El nombre del modelo pre-entrenado que se utilizará
+        batch_size (int): El tamaño del lote para el procesamiento
+        max_length (int): La longitud máxima del resumen
     Returns: str: el texto resumido.
     """
 
@@ -134,13 +136,17 @@ def generate_summary(text, model):
 
     tokenizer = BertTokenizerFast.from_pretrained(model)
     model = EncoderDecoderModel.from_pretrained(model).to(device)
-    
-    inputs = tokenizer(text, padding="max_length", truncation=True, max_length=512, return_tensors="pt")
+
+    inputs = tokenizer(text, padding="max_length", truncation=True, max_length=max_length, return_tensors="pt")
     input_ids = inputs.input_ids.to(device)
     attention_mask = inputs.attention_mask.to(device)
-    output = model.generate(input_ids, attention_mask=attention_mask)
-    
-    return [tokenizer.decode(output[i], skip_special_tokens=True) for i in range(len(output))]
+
+    outputs = []
+    for i in range(0, len(input_ids), batch_size):
+        output = model.generate(input_ids[i:i+batch_size], attention_mask=attention_mask[i:i+batch_size])
+        outputs.extend([tokenizer.decode(output[j], skip_special_tokens=True) for j in range(len(output))])
+
+    return outputs
 
 
 def procesar_documentos(documentos, query_docs, MODEL_SUMMARIZATION, idioma='spanish'):
@@ -170,7 +176,7 @@ def procesar_documentos(documentos, query_docs, MODEL_SUMMARIZATION, idioma='spa
             # Verifica si el vocabulario no está vacío
             if len(vocabulario) > 0:
                 
-                print(f"{documento} en procesamiento")
+                print("Documento en procesamiento")
                 
                 sections = identify_sections(documento, query_docs)
                 summary = generate_summary(sections, MODEL_SUMMARIZATION)
