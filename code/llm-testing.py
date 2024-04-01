@@ -30,8 +30,6 @@ llm_model = LlamaCpp(
     callbacks=callbacks,
 )
 
-llm_model.verbose = False
-
 # Load PDF
 print("\nInicio de carga de documentos (RAG): ", datetime.now().strftime("%d/%m/%Y %H:%M:%S"))
 
