@@ -14,7 +14,7 @@ import os
 # Descargado de https://huggingface.co/TheBloke/Llama-2-7B-Chat-GGUF/blob/main/llama-2-7b-chat.Q5_K_S.gguf
 DIRECTORIO_LLM_MODELS = 'C:/Users/jumaf/OneDrive/Documentos/llm-models/'
 MODEL_NAME = "llama-2-7b-chat.Q5_K_S.gguf"
-FOLDER_PATH = 'C:/Users/jumaf/Documents/GitHub/ia_datos-espaciales/pdfs/'
+FOLDER_PATH = 'C:/Users/jumaf/Documents/GitHub/ia_datos-espaciales/code/pdfs/'
 
 N_GPU_LAYERS = 0 # Sin GPU
 N_BATCH = 512
@@ -59,7 +59,7 @@ for filename in pdf_files:
 print('Proceso de load de documentos finalizado.')
 
 
-template = """Responde la pregunta en español basado fundamentalmente en el contexto:
+template = """Responde la pregunta en sólo en idioma español basado fundamentalmente en el contexto:
 {context}
 
 Pregunta: {question}
