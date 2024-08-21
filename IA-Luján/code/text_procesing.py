@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from funciones_text import cargar_documentos_desde_directorio, procesar_documentos
-from config import DIRECTORIO_TXTS, QUERY, MODEL_SUMMARIZATION
+from utils.funciones_text import cargar_documentos_desde_directorio, procesar_documentos
+from utils.config import DIRECTORIO_TXTS, QUERY, MODEL_SUMMARIZATION
 
 
 # Ejemplo de uso:
