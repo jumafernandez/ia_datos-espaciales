@@ -14,7 +14,7 @@ import os
 # Descargado de https://huggingface.co/TheBloke/Llama-2-7B-Chat-GGUF/blob/main/llama-2-7b-chat.Q5_K_S.gguf
 DIRECTORIO_LLM_MODELS = 'C:/Users/jumaf/OneDrive/Documentos/llm-models/'
 MODEL_NAME = "llama-2-7b-chat.Q5_K_S.gguf"
-FOLDER_PATH = 'C:/Users/jumaf/Documents/GitHub/ia_datos-espaciales/code/pdfs/'
+FOLDER_PATH = 'C:/Users/jumaf/Documents/GitHub/ia_datos-espaciales/IA-Luján/data/pdfs/'
 
 N_GPU_LAYERS = 0 # Sin GPU
 N_BATCH = 512
@@ -81,7 +81,7 @@ chat_history = []
 question = ""
 
 while question != 'salir':
-    question = input('Haga una pregunta al LLM: (escriba "salir" para terminar)\n')
+    question = input('Haga una pregunta al LLM: (escriba "salir" para terminar)\n\n')
     if question != 'salir':
         print("\nInicio: ", datetime.now().strftime("%d/%m/%Y %H:%M:%S"))
         ai_msg = chain.invoke(question)

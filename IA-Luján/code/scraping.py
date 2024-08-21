@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
 # Módulos propios que generan funciones para el scraping
-from funciones_scraping import descargar_pdfs, scraping
-from funciones_text import pdf_to_text
-from config import CANTIDAD_RESULTADOS, QUERY, DIRECTORIO_DESTINO, OFFSET
+from utils.funciones_scraping import descargar_pdfs, scraping
+from utils.funciones_text import pdf_to_text
+from utils.config import CANTIDAD_RESULTADOS, QUERY, DIRECTORIO_DESTINO, OFFSET
 # from proxy_functions import fetch_proxies_freeproxy, fetch_proxies_sslproxies, get_valid_proxies
 
 # Se inicializan los proxys libres que se hacen para no ser banneados en el request
